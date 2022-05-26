@@ -1,7 +1,6 @@
-li {
-    float: left;
+.margin-left-20 {
+    margin-left: 20%;
 }
-li a {
-    display: block;
-    padding: 14px 16px;
+.margin-right-20 {
+    margin-right: 20%;
 }
