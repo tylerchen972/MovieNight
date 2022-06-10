@@ -13,5 +13,5 @@ app.listen(PORT, () => {
 
 app.use(express.static(path.resolve(__dirname, '../cliet/build')));
 app.get('*', (req, res) => {
-    res.sendFile(pah.resolve(__dirname, '../cliet/build', 'index.js'));
+    res.sendFile(path.resolve(__dirname, '../cliet/build', 'index.js'));
 })
