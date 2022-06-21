@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User.js");
 const bcrypt = require('bcryptjs');
-const validateRegisterInput = require('../validation/registerValidation')
+const validateRegisterInput = require('../validation/registerValidation');
+const jwt = require('jsonwebtoken');
+const requiresAuth = require('../middleware/permissions');
 
 //GET /api/auth/test
 router.get("/test", (req, res)=>{
@@ -31,11 +33,59 @@ router.post("/register", async (req, res)=> {
             name: req.body.name
         });
         const savedUser = await newUser.save();
-        return res.json(savedUser);
+
+        //Delete return password even though its hashed
+        const UsertoReturn = {...savedUser._doc};
+        delete UsertoReturn.password;
+
+        return res.json(UsertoReturn);
     }
     catch (error) {
         console.log(error);
         res.status(500).send(error.message);
     }
-})
+});
+
+router.post("/login", async (req, res) => {
+    try {
+        const user = await User.findOne({
+            email: new RegExp("^" + req.body.email + "$", "i"),
+        })
+        if(!user) {
+            return res.status(400).json({error: "There is a problem with your login credentials"});
+        }
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+        if(!passwordMatch) {
+            return res.status(400).json({error: "There is a problem with your login credentials"});
+        }
+        const payload = {userId: user._id};
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "7d"
+        });
+
+        res.cookie("access-token", token, {
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            secure:process.env.NODE_ENV === "production"
+        });
+
+        const UserToReturn = {...user._doc};
+        delete UserToReturn.password;
+        return res.json({
+            token: token,
+            user: UserToReturn
+        })
+
+    }catch(err) {
+        console.log(err);
+        return res.status(500).send(err.message);
+    }
+});
+
+router.get("/current", requiresAuth, (req, res) => {
+    if (!req.user) {
+        return res.status(401).send("Unauthorised");
+    }
+    return res.json(req.user);
+});
 module.exports = router
