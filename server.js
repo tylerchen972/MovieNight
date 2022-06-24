@@ -3,7 +3,8 @@ const express = require("express");
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
-const authRoute = require("./routes/auth")
+const authRoute = require("./routes/auth");
+const ToDosRoute = require("./routes/todos");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/api/todos", ToDosRoute);
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Connected to database');

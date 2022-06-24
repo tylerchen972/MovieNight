@@ -6,11 +6,6 @@ const validateRegisterInput = require('../validation/registerValidation');
 const jwt = require('jsonwebtoken');
 const requiresAuth = require('../middleware/permissions');
 
-//GET /api/auth/test
-router.get("/test", (req, res)=>{
-    res.send("Auth root working");
-});
-
 //POST /api/auth/register
 router.post("/register", async (req, res)=> {
     try {
