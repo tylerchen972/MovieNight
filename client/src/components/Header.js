@@ -6,7 +6,7 @@ const Header = () => {
         <div className="main-header">
             <div className="main-header__inner">
                 <div className="main-header__left">
-                    <Link to="/">To Do List</Link>
+                    <Link to="/">Schedule List</Link>
                 </div>
                 <div className="main-header__right">
                     <button className="btn">Logout</button>
