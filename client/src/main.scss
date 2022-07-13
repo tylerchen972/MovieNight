@@ -62,6 +62,11 @@ button, input, textarea {
     border-radius: 5px;
     font-size: 1rem;
     transition: all 0.2s ease;
+    text-decoration: none;
+    &:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
     &:hover {
         background-color: $primary-dark;
         cursor: pointer;
@@ -119,4 +124,28 @@ button, input, textarea {
         margin-top: 10px;
         color: $red;
     }
+    &__register {
+        text-align: center;
+        margin-top: 20px;
+        p {
+            margin-bottom: 0;
+        }
+        a {
+            color: $white;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all .3s ease;
+        }
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
+.loading {
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
