@@ -10,11 +10,11 @@ const NewToDo = () => {
         axios.post("api/todos/new", {content}).then(res => {
             setContent("");
             addToDo(res.data);
-        })
-    }
+        });
+    };
     return(
         <form className="new" onSubmit={onSubmit}>
-            <input type="text" value={content} onChange={(e)=>setContent(e.target.value)} />
+            <input type="text" value={content} placeholder="Add a task here" onChange={(e)=>setContent(e.target.value)} />
                 <button className="btn" type="submit" disabled={content.length === 0}>
                     Add
                 </button>
