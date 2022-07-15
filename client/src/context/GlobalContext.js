@@ -79,11 +79,14 @@ export const GlobalProvider = (props) => {
             dispatch({type: "RESET_USER"});
         }
     }
-
+    const addToDo = (toDo) => {
+        dispatch({type: "SET_INCOMPLETE_TODOS", payload: [toDo, ...state.incomplete]})
+    }
     const value = {
         ...state,
         getCurrentUser,
         logout,
+        addToDo,
     }
     return (
         <GlobalContext.Provider value = {value}>{props.children}</GlobalContext.Provider>
