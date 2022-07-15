@@ -1,5 +1,5 @@
 {
-  "name": "vidio",
+  "name": "schedulerapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -37,9 +37,5 @@
   "devDependencies": {
     "concurrently": "^7.2.1",
     "nodemon": "^2.0.16"
-  },
-  "engines": {
-    "npm": "^8.12.1",
-    "node": "^14.17.6"
   }
 }
