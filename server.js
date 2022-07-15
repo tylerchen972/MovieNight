@@ -2,9 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const path = require("path");
 
 const authRoute = require("./routes/auth");
 const ToDosRoute = require("./routes/todos");
+
 
 const app = express();
 
@@ -17,6 +19,11 @@ app.get("/api", (req, res) => {
 
 app.use("/api/auth", authRoute);
 app.use("/api/todos", ToDosRoute);
+
+app.use(express.static(path.resolve(__dirname, "./cient/build")));
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./cient/build", "index.html"));
+})
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('Connected to database');
